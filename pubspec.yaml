@@ -28,35 +28,37 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  google_fonts: 6.2.1
   flutter:
     sdk: flutter
-
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
   flutter_native_splash: ^2.4.2
+  logger: ^1.1.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
   flutter_launcher_icons: ^0.14.1
-  flutter_lints: ^4.0.0
+  flutter_lints: ^5.0.0
 
 flutter_launcher_icons:
   android: true
   ios: true
   image_path: "assets/images/icono_launcher.png"
-  adaptive_icon_background: "#FFFFFF"
-  adaptive_icon_foreground: "assets/images/icono.png"
+  #adaptive_icon_background: "#FFFFFF"
+  #adaptive_icon_foreground: "assets/images/icono.png"
   #remove_alpha_ios: true
-  min_sdk_android: 21
+  #min_sdk_android: flutter.minSdkVersion
 
 
 flutter_native_splash:
-  color: "#E0F2F1"
-  image: "assets/images/icono.png"
+  color: "#FFFFFF"
+  image: "assets/images/logo_crono.png"
+   
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
