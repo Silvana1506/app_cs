@@ -5,42 +5,14 @@ import 'package:app_cs/MainScreens/widgets/design_widgets.dart';
 import 'package:app_cs/Utils/textapp.dart';
 import 'package:flutter/material.dart';
 
-class WelcomeScreen extends StatefulWidget {
-  const WelcomeScreen({super.key});
+class MsnCuentaCreada extends StatefulWidget {
+  const MsnCuentaCreada({super.key});
 
   @override
-  State<WelcomeScreen> createState() => _WelcomeScreenState();
+  State<MsnCuentaCreada> createState() => _MsnCuentaCreadaState();
 }
 
-Widget _perfilButton2(BuildContext context) {
-  return Container(
-    padding: EdgeInsets.only(top: 25.0, bottom: 25),
-    width: double.infinity,
-    child: ElevatedButton(
-      onPressed: () => Navigator.push(
-          context, MaterialPageRoute(builder: (context) => LoginScreen())),
-      style: ElevatedButton.styleFrom(
-        elevation: 5.0,
-        backgroundColor: Colors.lightBlueAccent,
-        padding: EdgeInsets.all(15.0),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30.0),
-        ), // Color de fondo
-      ),
-      child: Text(
-        TextApp.perfilProfesional,
-        style: TextStyle(
-          color: Colors.black,
-          letterSpacing: 1.5,
-          fontSize: 24.0,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-    ),
-  );
-}
-
-class _WelcomeScreenState extends State<WelcomeScreen> {
+class _MsnCuentaCreadaState extends State<MsnCuentaCreada> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -61,15 +33,14 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   ContainerShape01(),
                   Padding(
                     padding: const EdgeInsets.only(top: 15),
-                    child: Designwidgets.titleCustom(),
+                    child: Designwidgets.titleCustomCrear2(),
                   ),
                   MyLoginButton(
-                    text: TextApp.usuario,
+                    text: TextApp.iniciosesion,
                     colortext: Colors.black,
                     colorbuttonbackground: Colors.lightBlueAccent,
                     widgetToNavigate: LoginScreen(),
                   ),
-                  _perfilButton2(context)
                 ],
               )),
         ),
