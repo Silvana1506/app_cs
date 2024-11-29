@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "169763294370",
+    "project_id": "cronosalud-37e76",
+    "storage_bucket": "cronosalud-37e76.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:169763294370:android:d852c2037d144b79bb1bfb",
+        "android_client_info": {
+          "package_name": "com.example.app_cs"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "169763294370-kpjrvuo8ulrcgqg5r8mnos8dmr3eiu1q.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.app_cs",
+            "certificate_hash": "38760b3919d0c67be9b56e66ba05df385cfddc17"
+          }
+        },
+        {
+          "client_id": "169763294370-2gfo7rvcjc0u7dtii7t6ibsdtg8m2p1n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAMK8KuAKKhrecgAH-m4LUSWosrI7Dpgwk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "169763294370-2gfo7rvcjc0u7dtii7t6ibsdtg8m2p1n.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "169763294370-71utmi7kaij12dbgbek55aj4gbf2otfb.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.appCs"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

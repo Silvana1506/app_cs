@@ -1,10 +1,10 @@
-import 'package:app_cs/MainScreens/login/login_screen.dart';
-import 'package:app_cs/MainScreens/widgets/components/buttons/myloginbutton.dart';
-import 'package:app_cs/MainScreens/widgets/components/container/container_shape01.dart';
-import 'package:app_cs/MainScreens/widgets/design_widgets.dart';
-import 'package:app_cs/Utils/textapp.dart';
+import 'package:cronosalud/MainScreens/login/login_screen.dart';
+import 'package:cronosalud/MainScreens/widgets/components/buttons/myloginbutton.dart';
+import 'package:cronosalud/MainScreens/widgets/components/container/container_shape01.dart';
+import 'package:cronosalud/Utils/textapp.dart';
 import 'package:flutter/material.dart';
 
+//pantalla para elegir perfil usuario o profesional de salud
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});
 
@@ -12,66 +12,75 @@ class WelcomeScreen extends StatefulWidget {
   State<WelcomeScreen> createState() => _WelcomeScreenState();
 }
 
-Widget _perfilButton2(BuildContext context) {
-  return Container(
-    padding: EdgeInsets.only(top: 25.0, bottom: 25),
-    width: double.infinity,
-    child: ElevatedButton(
-      onPressed: () => Navigator.push(
-          context, MaterialPageRoute(builder: (context) => LoginScreen())),
-      style: ElevatedButton.styleFrom(
-        elevation: 5.0,
-        backgroundColor: Colors.lightBlueAccent,
-        padding: EdgeInsets.all(15.0),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30.0),
-        ), // Color de fondo
-      ),
-      child: Text(
-        TextApp.perfilProfesional,
-        style: TextStyle(
-          color: Colors.black,
-          letterSpacing: 1.5,
-          fontSize: 24.0,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-    ),
-  );
-}
-
 class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
     return SafeArea(
       child: Scaffold(
-        body: SingleChildScrollView(
-          child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 50),
-              height: MediaQuery.of(context).size.height,
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                //gradient: Designwidgets.linearGradientMain(context),
+        body: Container(
+          width: size.width,
+          height: size.height,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/images/imagen1.jpg'),
+              fit: BoxFit.cover,
+            ),
+          ),
+          //color: Colors.white,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              // Fondo decorativo en la parte superior
+              const ContainerShape01(),
+              const SizedBox(height: 10),
+              // Título principal
+              const Text(
+                "¡Bienvenido a CronoSalud!",
+                style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+                textAlign: TextAlign.center,
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                //mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ContainerShape01(),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 15),
-                    child: Designwidgets.titleCustom(),
-                  ),
-                  MyLoginButton(
-                    text: TextApp.usuario,
-                    colortext: Colors.black,
-                    colorbuttonbackground: Colors.lightBlueAccent,
-                    widgetToNavigate: LoginScreen(),
-                  ),
-                  _perfilButton2(context)
-                ],
-              )),
+              const SizedBox(height: 40),
+              const Text(
+                "Selecciona tu perfil para continuar",
+                style: TextStyle(
+                  fontSize: 22,
+                  color: Colors.white,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 10),
+              // Botones
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25),
+                child: Column(
+                  children: [
+                    MyLoginButton(
+                      text: TextApp.usuario,
+                      colortext: Colors.white,
+                      colorbuttonbackground:
+                          Colors.lightBlueAccent, // Botón celeste claro
+                      widgetToNavigate: const LoginScreen(),
+                    ),
+                    const SizedBox(height: 5),
+                    MyLoginButton(
+                      text: TextApp.perfilProfesional,
+                      colortext: Colors.white,
+                      colorbuttonbackground:
+                          Colors.lightBlueAccent, // Botón celeste claro
+                      widgetToNavigate: const LoginScreen(),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

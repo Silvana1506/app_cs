@@ -1,17 +1,19 @@
-import 'package:app_cs/MainScreens/login/welcome_screen.dart';
+import 'package:cronosalud/MainScreens/login/notificaciones.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
-void main() {
+void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-  setup();
-  runApp(const MyApp());
-}
-
-void setup() async {
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  await NotificationService.initialize();
   await Future.delayed(const Duration(seconds: 1));
   FlutterNativeSplash.remove();
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -20,7 +22,18 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: WelcomeScreen(),
+      debugShowCheckedModeBanner: false,
+      //title: 'CronoSalud',
+      //theme: ThemeData(
+      // primarySwatch: Colors.blue,
+      //fontFamily: 'Roboto',
+      //),
+      title: 'Notificaciones Push',
+      home: Scaffold(
+        appBar: AppBar(title: const Text('Notificaciones Push')),
+        body: const Center(child: Text('Configuración Inicial Completa')),
+      ),
+      //home: const WelcomeScreen(),
     );
   }
 }

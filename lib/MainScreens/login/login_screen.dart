@@ -1,161 +1,265 @@
-import 'package:app_cs/MainScreens/login/signup.dart';
-import 'package:app_cs/MainScreens/my_home_page.dart';
-import 'package:app_cs/MainScreens/widgets/components/buttons/my_back_button.dart';
-import 'package:app_cs/MainScreens/widgets/components/buttons/myloginbutton.dart';
-import 'package:app_cs/MainScreens/widgets/components/container/container_shape01.dart';
-import 'package:app_cs/MainScreens/widgets/components/fields/myfieldform.dart';
-import 'package:app_cs/MainScreens/widgets/design_widgets.dart';
-import 'package:app_cs/Utils/textapp.dart';
+import 'dart:developer' as developer;
+import 'package:cronosalud/MainScreens/login/perfilscreen.dart';
+import 'package:cronosalud/MainScreens/login/recuperar_password_screen.dart';
+import 'package:cronosalud/MainScreens/login/signup.dart';
+import 'package:cronosalud/MainScreens/login/welcome_screen.dart';
+import 'package:cronosalud/MainScreens/widgets/components/buttons/my_back_button.dart';
+import 'package:cronosalud/MainScreens/widgets/components/buttons/myloginbutton.dart';
+import 'package:cronosalud/MainScreens/widgets/components/container/container_shape01.dart';
+import 'package:cronosalud/MainScreens/widgets/components/fields/myfieldform.dart';
+import 'package:cronosalud/Utils/logingoogleutils.dart';
+import 'package:cronosalud/Utils/textapp.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:auth_buttons/auth_buttons.dart';
 
-//PANTALLA QUE ENVIA AL INICAR SESION
+//PANTALLA PARA INICAR SESION
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreen();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreen extends State<LoginScreen> {
+class _LoginScreenState extends State<LoginScreen> {
   Widget _usuarioPasswordWidget() {
     return Column(
       children: <Widget>[
         Myfieldform(
-          tittle: TextApp.usuario,
+          controller: _rutController,
+          tittle: TextApp.rut,
+          icon: Icons.person, // Añadimos un ícono
         ),
+        const SizedBox(height: 15),
         Myfieldform(
+          controller: _passwordController,
           tittle: TextApp.password,
           isPassword: true,
+          icon: Icons.lock, // Añadimos un ícono
         ),
       ],
     );
   }
 
-  Widget _forgotpass() {
+  Widget _forgotpass(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 5),
+      padding: const EdgeInsets.symmetric(vertical: 5),
       alignment: Alignment.center,
-      child: Text(TextApp.forgotpass,
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900)),
+      child: GestureDetector(
+        onTap: () {
+          // Navega a la pantalla de recuperación de contraseña
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => RecuperarPasswordScreen()),
+          );
+        },
+        child: Text(
+          TextApp.forgotpass,
+          style: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w900,
+            color: Colors.black87,
+          ),
+        ),
+      ),
     );
   }
 
   Widget _divider() {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 5),
+      margin: const EdgeInsets.symmetric(vertical: 15),
       child: Row(
         children: <Widget>[
           Expanded(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 5),
-              child: Divider(
-                thickness: 1,
-              ),
-            ),
+            child: Divider(thickness: 1, color: Colors.black87),
           ),
-          Text(TextApp.or),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 8.0),
+            child: Text("O"),
+          ),
           Expanded(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 5),
-              child: Divider(
-                thickness: 1,
-              ),
-            ),
+            child: Divider(thickness: 1, color: Colors.black87),
           ),
         ],
       ),
     );
   }
 
-  Widget _signUpLabel() {
-    return TextButton(
-      onPressed: () => Navigator.push(
-          context, MaterialPageRoute(builder: (context) => SignUp())),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          //no tienes cuenta google
-          Text(
-            TextApp.donthaveaccount,
-            style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 10),
-            child: Text(
-              TextApp.signup,
-              style: TextStyle(
-                  color: Theme.of(context).primaryColorDark,
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+  final TextEditingController _rutController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
+
     return SafeArea(
-        child: Scaffold(
-      body: Stack(
-        children: [
-          ContainerShape01(),
-          Container(
-            height: double.infinity,
-            width: double.infinity,
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(top: height * .15),
-                    child: Designwidgets.titleCustomDark(),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top: height * .05),
-                    child: _usuarioPasswordWidget(),
-                  ),
-                  MyLoginButton(
-                    text: TextApp.iniciosesion,
-                    colortext: Colors.black,
-                    colorbuttonbackground: Colors.lightBlueAccent,
-                    widgetToNavigate: MyHomePage(),
-                  ),
-                  MyLoginButton(
-                    text: TextApp.crearcuenta,
-                    colortext: Colors.black,
-                    colorbuttonbackground: Colors.lightBlueAccent,
-                    widgetToNavigate: SignUp(),
-                  ),
-                  _forgotpass(),
-                  _divider(),
-                  Container(
-                    width: double.infinity,
-                    margin: EdgeInsets.only(top: 20, bottom: 20),
-                    child: GoogleAuthButton(
-                      onPressed: () async {},
-                      themeMode:
-                          ThemeMode.dark, // Activa modo oscuro si es necesario
-                      text: TextApp.googlesign,
-                      style: AuthButtonStyle(
-                        buttonType: AuthButtonType.secondary, // Tipo de botón
-                        borderRadius: 30.0, // Radio de los bordes
-                        //padding: EdgeInsets.symmetric(vertical: 12), // Espaciado vertical
-                      ),
-                    ),
-                  ),
-                  _signUpLabel(),
-                ],
+      child: Scaffold(
+        body: Stack(
+          children: [
+            // Imagen de fondo
+            Container(
+              width: double.infinity,
+              height: double.infinity,
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/images/imagen3.jpg'),
+                  fit: BoxFit.cover, // La imagen cubre toda la pantalla
+                ),
               ),
             ),
-          ),
-          Positioned(top: height * .015, child: MyBackButton()),
-        ],
+            // Contenido principal
+            Positioned(
+              top: 0,
+              left: 0,
+              right: 0,
+              child: ContainerShape01(),
+            ),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 30),
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(height: height * 0.2),
+                    const Text(
+                      "Inicia sesión !",
+                      style: TextStyle(
+                        fontSize: 38,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 30),
+                    _usuarioPasswordWidget(),
+                    const SizedBox(height: 50),
+                    // Botón de inicio de sesión
+                    ElevatedButton(
+                      onPressed: () async {
+                        String rut = _rutController.text.trim();
+                        String password = _passwordController.text.trim();
+
+                        if (rut.isEmpty || password.isEmpty) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text(
+                                'Por favor completa todos los campos.',
+                              ),
+                            ),
+                          );
+                          return;
+                        }
+                        await loginUser(rut, password);
+                        if (mounted) {
+                          if (context.mounted) {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => PerfilScreen(
+                                    userId:
+                                        rut), // Asumiendo que `rut` es el identificador del usuario
+                              ),
+                            );
+                          }
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor:
+                            Colors.lightBlueAccent, // Color del botón
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 15.0, horizontal: 30.0),
+                        shape: RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.circular(10.0), // Bordes redondeados
+                        ),
+                      ),
+                      child: const Text(
+                        'Iniciar sesión',
+                        style: TextStyle(
+                          color: Colors.black, // Color del texto
+                          letterSpacing: 1.5,
+                          fontSize: 24.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 5),
+                    MyLoginButton(
+                      text: TextApp.signup,
+                      colortext: Colors.black,
+                      colorbuttonbackground: Colors.lightBlueAccent,
+                      widgetToNavigate: SignUp(),
+                    ),
+                    _forgotpass(context),
+                    const SizedBox(height: 10),
+                    _divider(),
+                    const SizedBox(height: 10),
+                    GoogleAuthButton(
+                      onPressed: () {
+                        LoginGoogleUtils().signInwithGoogle().then((user) {
+                          // ignore: unnecessary_null_comparison
+                          if (user != null && mounted) {
+                            // ignore: use_build_context_synchronously
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return WelcomeScreen();
+                                },
+                              ),
+                            );
+                          } else {
+                            developer.log(
+                                "loginScreen-build() ERROR: user viene nulo");
+                          }
+                        });
+                      },
+                      text: TextApp.googlesign,
+                      style: const AuthButtonStyle(
+                        buttonType: AuthButtonType.secondary,
+                        borderRadius: 10.0,
+                        elevation: 5.0,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Positioned(
+              top: height * 0.01,
+              child: MyBackButton(),
+            ),
+          ],
+        ),
       ),
-    ));
+    );
+  }
+}
+
+// Función de inicio de sesión (Login) con RUT
+Future<void> loginUser(String rut, String password) async {
+  try {
+    // Buscar al usuario por su RUT en Firestore
+    QuerySnapshot snapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .where('rut', isEqualTo: rut)
+        .get();
+
+    if (snapshot.docs.isNotEmpty) {
+      // El RUT existe, obtenemos el email almacenado
+      String email = snapshot.docs.first['email'];
+
+      // Intentamos iniciar sesión con Firebase Authentication usando el correo y la contraseña
+      UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      // Si el login es exitoso, se puede navegar o hacer alguna acción
+      developer.log("Usuario logueado: ${userCredential.user!.email}");
+    } else {
+      developer.log("RUT no encontrado");
+      // Mostrar mensaje de error
+    }
+  } catch (e) {
+    developer.log("Error en el inicio de sesión: $e");
   }
 }

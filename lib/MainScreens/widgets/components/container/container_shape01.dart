@@ -6,14 +6,20 @@ class ContainerShape01 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: MediaQuery.of(context).size.height * .15,
-      width: MediaQuery.of(context).size.width,
-      color: Colors.white, // Fondo blanco
-      child: Center(
+    return SafeArea(
+      child: Container(
+        width: 450, //double.infinity, // Ocupa todo el ancho disponible
+        height: 150, //MediaQuery.of(context).size.height * 0.15,
+        alignment: Alignment.center, // Centra la imagen
+        clipBehavior: Clip.hardEdge, // 15% de la altura
+        decoration: BoxDecoration(
+          color: Colors.transparent,
+        ),
         child: Image.asset(
-          'assets/images/logo_crono.png', // Ruta de la imagen en tu proyecto
+          'assets/images/logo_crono.png',
           fit: BoxFit.contain,
+          //fit: BoxFit.fitWidth,
+          filterQuality: FilterQuality.high, // Alta calidad de renderizado
         ),
       ),
     );

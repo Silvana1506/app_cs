@@ -1,6 +1,7 @@
-import 'package:app_cs/Utils/textapp.dart';
+import 'package:cronosalud/Utils/textapp.dart';
 import 'package:flutter/material.dart';
 
+//boton volver
 class MyBackButton extends StatelessWidget {
   const MyBackButton({super.key});
 
@@ -18,7 +19,7 @@ class MyBackButton extends StatelessWidget {
               ),
               Text(TextApp.back,
                   style: TextStyle(
-                      fontSize: 20,
+                      fontSize: 15,
                       fontWeight: FontWeight.w500,
                       color: Colors.black))
             ],
