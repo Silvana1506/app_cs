@@ -22,7 +22,7 @@ class MyLoginButtonValidacion extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         elevation: 5.0,
         backgroundColor: colorbuttonbackground,
-        padding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 30.0),
+        padding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 50.0),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
         ),

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cronosalud/MainScreens/login/editinfopersonal.dart';
 import 'package:cronosalud/MainScreens/login/login_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -33,7 +34,10 @@ class PerfilScreen extends StatelessWidget {
   void _logout(BuildContext context) async {
     try {
       await FirebaseAuth.instance.signOut(); // Cierra sesión en Firebase
+      await GoogleSignIn()
+          .signOut(); // Cerrar sesión en Google (si es que el usuario inició sesión con Google)
       if (!context.mounted) return;
+      // Redirigir a la pantalla de login
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(builder: (context) => const LoginScreen()),
@@ -89,14 +93,46 @@ class PerfilScreen extends StatelessWidget {
                             color: Colors.white),
                       ),
                       title: Text(
-                        'Nombre: ${userData['username'] ?? 'No especificado'}',
+                        'Nombre: ${userData['name'] ?? 'No especificado'}',
                         style: const TextStyle(fontSize: 18),
-                      ),
-                      subtitle: Text(
-                        'Correo: ${userData['email'] ?? 'No especificado'}',
                       ),
                     ),
                   ),
+                  Card(
+                    elevation: 5,
+                    margin: const EdgeInsets.symmetric(vertical: 10),
+                    child: ListTile(
+                      leading: Icon(Icons.badge, color: Colors.blueAccent),
+                      title: Text(
+                        'Apellido Paterno: ${userData['apaterno'] ?? 'No especificado'}',
+                        style: const TextStyle(fontSize: 18),
+                      ),
+                    ),
+                  ),
+                  Card(
+                    elevation: 5,
+                    margin: const EdgeInsets.symmetric(vertical: 10),
+                    child: ListTile(
+                      leading:
+                          Icon(Icons.badge_outlined, color: Colors.blueAccent),
+                      title: Text(
+                        'Apellido Materno: ${userData['amaterno'] ?? 'No especificado'}',
+                        style: const TextStyle(fontSize: 18),
+                      ),
+                    ),
+                  ),
+                  Card(
+                    elevation: 5,
+                    margin: const EdgeInsets.symmetric(vertical: 10),
+                    child: ListTile(
+                      leading: Icon(Icons.email, color: Colors.blueAccent),
+                      title: Text(
+                        'Correo: ${userData['email'] ?? 'No especificado'}',
+                        style: const TextStyle(fontSize: 18),
+                      ),
+                    ),
+                  ),
+
                   Card(
                     elevation: 5,
                     margin: const EdgeInsets.symmetric(vertical: 10),
@@ -112,7 +148,7 @@ class PerfilScreen extends StatelessWidget {
                     elevation: 5,
                     margin: const EdgeInsets.symmetric(vertical: 10),
                     child: ListTile(
-                      leading: Icon(Icons.person, color: Colors.blueAccent),
+                      leading: Icon(Icons.wc, color: Colors.blueAccent),
                       title: Text(
                         'Sexo: ${userData['sexo'] ?? 'No especificado'}',
                         style: const TextStyle(fontSize: 18),
@@ -132,7 +168,6 @@ class PerfilScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 40),
-
                   // Botón para editar información
                   ElevatedButton.icon(
                     onPressed: () {
@@ -165,26 +200,27 @@ class PerfilScreen extends StatelessWidget {
                       ),
                     ),
                   ),
+
                   const SizedBox(height: 30),
+
                   // Botón para cerrar sesión
-                  ElevatedButton.icon(
+                  TextButton.icon(
                     onPressed: () => _logout(context),
-                    icon: const Icon(Icons.logout, color: Colors.white),
+                    icon: const Icon(Icons.logout,
+                        color: Colors.black), // Ícono en negro
                     label: const Text(
                       'Cerrar Sesión',
                       style: TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                        fontSize: 18, // Ajustar tamaño de texto
+                        fontWeight: FontWeight.w600, // Peso del texto
+                        color: Colors.black, // Texto en negro
                       ),
                     ),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.lightBlueAccent,
+                    style: TextButton.styleFrom(
                       padding: const EdgeInsets.symmetric(
-                          vertical: 15.0, horizontal: 30.0),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
+                          vertical: 10.0, horizontal: 20.0),
+                      alignment:
+                          Alignment.center, // Alinear contenido a la izquierda
                     ),
                   ),
                 ],

@@ -11,7 +11,9 @@ class TextApp {
   static const String iniciosesion = "Iniciar Sesión";
   static const String googlesign = "Iniciar Sesión con Google";
   static const String donthaveaccount = "¿No tienes una cuenta?";
-  static const String username = "Nombre de Usuario";
+  static const String name = "Nombre de Usuario";
+  static const String apaterno = "Apellido Paterno";
+  static const String amaterno = "Apellido Materno";
   static const String email = "Correo Electrónico";
   static const String phone = "Teléfono";
   static const String sexo = "Sexo";

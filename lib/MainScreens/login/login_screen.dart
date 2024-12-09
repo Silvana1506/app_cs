@@ -1,8 +1,8 @@
 import 'dart:developer' as developer;
+import 'package:cronosalud/MainScreens/login/mainmenuscreen.dart';
 import 'package:cronosalud/MainScreens/login/perfilscreen.dart';
 import 'package:cronosalud/MainScreens/login/recuperar_password_screen.dart';
-import 'package:cronosalud/MainScreens/login/signup.dart';
-import 'package:cronosalud/MainScreens/login/welcome_screen.dart';
+import 'package:cronosalud/MainScreens/widgets/widget/signup.dart';
 import 'package:cronosalud/MainScreens/widgets/components/buttons/my_back_button.dart';
 import 'package:cronosalud/MainScreens/widgets/components/buttons/myloginbutton.dart';
 import 'package:cronosalud/MainScreens/widgets/components/container/container_shape01.dart';
@@ -125,7 +125,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     const Text(
                       "Inicia sesión !",
                       style: TextStyle(
-                        fontSize: 38,
+                        fontSize: 28,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -149,24 +149,22 @@ class _LoginScreenState extends State<LoginScreen> {
                           return;
                         }
                         await loginUser(rut, password);
-                        if (mounted) {
-                          if (context.mounted) {
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => PerfilScreen(
-                                    userId:
-                                        rut), // Asumiendo que `rut` es el identificador del usuario
-                              ),
-                            );
-                          }
+                        if (context.mounted) {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => MainMenuScreen(userId: rut),
+                              // LoginScreen(userId:
+                              //   rut), // Asumiendo que `rut` es el identificador del usuario
+                            ),
+                          );
                         }
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor:
                             Colors.lightBlueAccent, // Color del botón
                         padding: const EdgeInsets.symmetric(
-                            vertical: 15.0, horizontal: 30.0),
+                            vertical: 15.0, horizontal: 50.0),
                         shape: RoundedRectangleBorder(
                           borderRadius:
                               BorderRadius.circular(10.0), // Bordes redondeados
@@ -194,23 +192,32 @@ class _LoginScreenState extends State<LoginScreen> {
                     _divider(),
                     const SizedBox(height: 10),
                     GoogleAuthButton(
-                      onPressed: () {
-                        LoginGoogleUtils().signInwithGoogle().then((user) {
-                          // ignore: unnecessary_null_comparison
+                      onPressed: () async {
+                        try {
+                          // Llama al método para iniciar sesión con Google
+                          final user =
+                              await LoginGoogleUtils().signInwithGoogle();
                           if (user != null && mounted) {
+                            // Accede al UID del usuario para pasarlo a la siguiente pantalla
+                            String googleUid = user.uid;
+                            // Navega a la pantalla de perfil con el userId
                             // ignore: use_build_context_synchronously
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                builder: (context) {
-                                  return WelcomeScreen();
-                                },
+                                builder: (context) =>
+                                    PerfilScreen(userId: googleUid),
                               ),
                             );
                           } else {
+                            // Log para manejo de errores
                             developer.log(
                                 "loginScreen-build() ERROR: user viene nulo");
                           }
-                        });
+                        } catch (e) {
+                          // Manejo de errores en caso de fallos
+                          developer
+                              .log("Error al iniciar sesión con Google: $e");
+                        }
                       },
                       text: TextApp.googlesign,
                       style: const AuthButtonStyle(
@@ -225,6 +232,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             Positioned(
               top: height * 0.01,
+              left: 0.01,
               child: MyBackButton(),
             ),
           ],

@@ -1,4 +1,4 @@
-import 'package:cronosalud/MainScreens/login/msncuentacreada.dart';
+import 'package:cronosalud/MainScreens/widgets/widget/msncuentacreada.dart';
 import 'package:cronosalud/MainScreens/widgets/components/buttons/my_back_button.dart';
 import 'package:cronosalud/MainScreens/widgets/components/buttons/myloginbuttonvalidacion.dart';
 import 'package:cronosalud/MainScreens/widgets/components/container/container_shape01.dart';
@@ -19,7 +19,9 @@ class SignUp extends StatefulWidget {
 class _SignUp extends State<SignUp> {
   // Define el GlobalKey para el Form
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _apaternoController = TextEditingController();
+  final TextEditingController _amaternoController = TextEditingController();
   final TextEditingController _rutController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
@@ -31,8 +33,8 @@ class _SignUp extends State<SignUp> {
     return Column(
       children: <Widget>[
         Myfieldform(
-          tittle: TextApp.username,
-          controller: _usernameController,
+          tittle: TextApp.name,
+          controller: _nameController,
           validator: (value) {
             if (value == null || value.isEmpty) {
               return 'El nombre es requerido';
@@ -40,7 +42,29 @@ class _SignUp extends State<SignUp> {
             return null;
           },
         ),
-        const SizedBox(height: 15),
+        const SizedBox(height: 5),
+        Myfieldform(
+          tittle: TextApp.apaterno,
+          controller: _apaternoController,
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'El Apellido Paterno es requerido';
+            }
+            return null;
+          },
+        ),
+        const SizedBox(height: 5),
+        Myfieldform(
+          tittle: TextApp.amaterno,
+          controller: _amaternoController,
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'El Apellido Materno es requerido';
+            }
+            return null;
+          },
+        ),
+        const SizedBox(height: 5),
         Myfieldform(
           tittle: TextApp.rut,
           controller: _rutController,
@@ -54,7 +78,7 @@ class _SignUp extends State<SignUp> {
             return null;
           },
         ),
-        const SizedBox(height: 15),
+        const SizedBox(height: 5),
         Myfieldform(
           tittle: TextApp.password,
           isPassword: true,
@@ -66,7 +90,7 @@ class _SignUp extends State<SignUp> {
             return null;
           },
         ),
-        const SizedBox(height: 15),
+        const SizedBox(height: 5),
         Myfieldform(
           tittle: TextApp.email,
           controller: _emailController,
@@ -79,7 +103,7 @@ class _SignUp extends State<SignUp> {
             return null;
           },
         ),
-        const SizedBox(height: 15),
+        const SizedBox(height: 5),
         Myfieldform(
           tittle: TextApp.phone,
           controller: _phoneController,
@@ -90,7 +114,7 @@ class _SignUp extends State<SignUp> {
             return null;
           },
         ),
-        const SizedBox(height: 15),
+        const SizedBox(height: 5),
         Myfieldform(
           tittle: TextApp.sexo,
           controller: _sexoController,
@@ -101,7 +125,7 @@ class _SignUp extends State<SignUp> {
             return null;
           },
         ),
-        const SizedBox(height: 15),
+        const SizedBox(height: 5),
         Myfieldform(
           tittle: TextApp.fnacimiento,
           controller: _fnacimientoController,
@@ -136,7 +160,9 @@ class _SignUp extends State<SignUp> {
             userCredential.user!.uid; // Obtener el UID del usuario creado
         // Guardar información adicional del usuario en Firestore
         await FirebaseFirestore.instance.collection('users').doc(userId).set({
-          'username': _usernameController.text.trim(),
+          'nombre': _nameController.text.trim(),
+          'apaterno': _apaternoController.text.trim(),
+          'amaterno': _amaternoController.text.trim(),
           'rut': _rutController.text.trim(),
           'email': _emailController.text.trim(),
           'phone': _phoneController.text.trim(),
@@ -217,7 +243,7 @@ class _SignUp extends State<SignUp> {
             Container(
               height: double.infinity,
               width: double.infinity,
-              padding: const EdgeInsets.symmetric(horizontal: 15),
+              padding: const EdgeInsets.symmetric(horizontal: 5),
               child: SingleChildScrollView(
                 child: Form(
                   key: _formKey, // Asocia el formulario con el GlobalKey
@@ -228,7 +254,7 @@ class _SignUp extends State<SignUp> {
                       Text(
                         "Crea tu cuenta !",
                         style: TextStyle(
-                          fontSize: 38,
+                          fontSize: 28,
                           fontWeight: FontWeight.bold,
                           color: Colors.black87,
                         ),
@@ -246,7 +272,7 @@ class _SignUp extends State<SignUp> {
                       const SizedBox(height: 5),
                       // Formulario de entrada
                       Container(
-                        padding: const EdgeInsets.all(15),
+                        padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(10),
@@ -283,7 +309,7 @@ class _SignUp extends State<SignUp> {
             // Botón de retroceso
             Positioned(
               top: height * 0.02,
-              left: 15,
+              left: 0.01,
               child: MyBackButton(),
             ),
           ],

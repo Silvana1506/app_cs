@@ -15,7 +15,9 @@ class EditProfileScreen extends StatefulWidget {
 }
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
-  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _apaternoController = TextEditingController();
+  final TextEditingController _amaternoController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _sexoController = TextEditingController();
@@ -26,7 +28,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     super.initState();
 
     // Inicializamos los controladores con los datos del usuario
-    _usernameController.text = widget.userData['username'] ?? '';
+    _nameController.text = widget.userData['name'] ?? '';
+    _apaternoController.text = widget.userData['apaterno'] ?? '';
+    _amaternoController.text = widget.userData['amaterno'] ?? '';
     _emailController.text = widget.userData['email'] ?? '';
     _phoneController.text = widget.userData['telefono'] ?? '';
     _sexoController.text = widget.userData['sexo'] ?? '';
@@ -36,7 +40,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   @override
   void dispose() {
     // Dispose of the controllers
-    _usernameController.dispose();
+    _nameController.dispose();
+    _apaternoController.dispose();
+    _amaternoController.dispose();
     _emailController.dispose();
     _phoneController.dispose();
     _sexoController.dispose();
@@ -46,7 +52,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   Future<void> updateUserData() async {
     // Validar si todos los campos están llenos
-    if (_usernameController.text.isEmpty ||
+    if (_nameController.text.isEmpty ||
+        _apaternoController.text.isEmpty ||
+        _amaternoController.text.isEmpty ||
         _emailController.text.isEmpty ||
         _phoneController.text.isEmpty ||
         _sexoController.text.isEmpty ||
@@ -85,7 +93,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           .collection('users')
           .doc(documentId)
           .update({
-        'username': _usernameController.text.trim(),
+        'name': _nameController.text.trim(),
+        'apaterno': _apaternoController.text.trim(),
+        'amaterno': _amaternoController.text.trim(),
         'email': _emailController.text.trim(),
         'phone': _phoneController.text.trim(),
         'sexo': _sexoController.text.trim(),
@@ -119,57 +129,149 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.lightBlueAccent,
-        title: const Text('Editar Perfil'),
+        title: const Text(
+          'Editar Perfil',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        centerTitle: true,
       ),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
-        child: ListView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            TextField(
-              controller: _usernameController,
-              decoration: const InputDecoration(labelText: 'Nombre'),
+            // Encabezado para Información Personal
+            const Text(
+              'Información Personal',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.blueAccent,
+              ),
             ),
             const SizedBox(height: 10),
-            TextField(
-              controller: _emailController,
-              decoration:
-                  const InputDecoration(labelText: 'Correo Electrónico'),
-              keyboardType: TextInputType.emailAddress,
-            ),
-            const SizedBox(height: 10),
-            TextField(
-              controller: _phoneController,
-              decoration: const InputDecoration(labelText: 'Teléfono'),
-              keyboardType: TextInputType.phone,
-            ),
-            const SizedBox(height: 10),
-            TextField(
-              controller: _sexoController,
-              decoration: const InputDecoration(labelText: 'Sexo'),
-            ),
-            const SizedBox(height: 10),
-            TextField(
-              controller: _fnacimientoController,
-              decoration:
-                  const InputDecoration(labelText: 'Fecha de Nacimiento'),
-              keyboardType: TextInputType.datetime,
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: updateUserData,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.lightBlueAccent,
-                padding: const EdgeInsets.symmetric(vertical: 15.0),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
+            Card(
+              elevation: 3,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(10),
+                child: Column(
+                  children: [
+                    _buildTextField(
+                      controller: _nameController,
+                      labelText: 'Nombre',
+                      icon: Icons.person,
+                    ),
+                    _buildTextField(
+                      controller: _apaternoController,
+                      labelText: 'Apellido Paterno',
+                      icon: Icons.badge,
+                    ),
+                    _buildTextField(
+                      controller: _amaternoController,
+                      labelText: 'Apellido Materno',
+                      icon: Icons.badge_outlined,
+                    ),
+                  ],
                 ),
               ),
-              child: const Text(
-                'Guardar Cambios',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 20),
+
+            // Encabezado para Contacto
+            const Text(
+              'Contacto',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.blueAccent,
+              ),
+            ),
+            const SizedBox(height: 10),
+            Card(
+              elevation: 3,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(10),
+                child: Column(
+                  children: [
+                    _buildTextField(
+                      controller: _emailController,
+                      labelText: 'Correo Electrónico',
+                      icon: Icons.email,
+                      keyboardType: TextInputType.emailAddress,
+                    ),
+                    _buildTextField(
+                      controller: _phoneController,
+                      labelText: 'Teléfono',
+                      icon: Icons.phone,
+                      keyboardType: TextInputType.phone,
+                    ),
+                    _buildTextField(
+                      controller: _sexoController,
+                      labelText: 'Sexo',
+                      icon: Icons.wc,
+                    ),
+                    _buildTextField(
+                      controller: _fnacimientoController,
+                      labelText: 'Fecha de Nacimiento',
+                      icon: Icons.calendar_today,
+                      keyboardType: TextInputType.datetime,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 30),
+
+            // Botón para guardar
+            Center(
+              child: ElevatedButton(
+                onPressed: updateUserData,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.lightBlueAccent,
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 15.0, horizontal: 50.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                  ),
+                  elevation: 5,
+                ),
+                child: const Text(
+                  'Guardar Cambios',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+// Método para construir campos de texto personalizados
+  Widget _buildTextField({
+    required TextEditingController controller,
+    required String labelText,
+    required IconData icon,
+    TextInputType keyboardType = TextInputType.text,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: TextField(
+        controller: controller,
+        keyboardType: keyboardType,
+        decoration: InputDecoration(
+          labelText: labelText,
+          prefixIcon: Icon(icon, color: Colors.blueAccent),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
         ),
       ),
     );

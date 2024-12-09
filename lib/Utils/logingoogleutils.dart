@@ -8,7 +8,7 @@ class LoginGoogleUtils {
   final GoogleSignIn googleSignIn = GoogleSignIn();
   //google metodo
   //signInwithGoogle
-  Future<Future<User?>> signInwithGoogle() async {
+  Future<User?> signInwithGoogle() async {
     log("$tag, signInwithGoogle() init...");
 
     final GoogleSignInAccount? googleSignInAccount =

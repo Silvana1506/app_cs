@@ -4,6 +4,7 @@ import 'package:cronosalud/MainScreens/widgets/components/container/container_sh
 import 'package:cronosalud/Utils/textapp.dart';
 import 'package:flutter/material.dart';
 
+// pantalla confirmacion de cuenta creada
 class MsnCuentaCreada extends StatefulWidget {
   const MsnCuentaCreada({super.key});
 
