@@ -2,7 +2,7 @@ class TextApp {
   static const String loading = "Cargando...";
   static const String signup = "Registrarse";
   static const String usuario = "Usuario";
-  static const String perfilProfesional = "Profesional de Salud";
+  static const String perfilProfesional = "Profesional";
   static const String back = "Volver";
   static const String rut = "Rut: 11.111.222-3";
   static const String password = "Contraseña";
@@ -19,4 +19,10 @@ class TextApp {
   static const String sexo = "Sexo";
   static const String fnacimiento = "Fecha de Nacimiento";
   static const String logout = "Cerrar Sesión";
+  static const String glucosa = 'Nivel de Glucosa (mg/dL)';
+  static const String presion = 'Presión Arterial (mmHg)';
+  static const String medicamento = 'Medicamentos';
+  static const String biometria = 'Iniciar con biometría';
+  static const String savedatossalud = 'Guardar Datos';
+  static const String editarperfil = 'Editar Perfil';
 }

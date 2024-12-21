@@ -1,1 +1,41 @@
-{"flutter":{"platforms":{"android":{"default":{"projectId":"cronosalud-37e76","appId":"1:169763294370:android:d852c2037d144b79bb1bfb","fileOutput":"android/app/google-services.json"}},"dart":{"lib/firebase_options.dart":{"projectId":"cronosalud-37e76","configurations":{"android":"1:169763294370:android:d852c2037d144b79bb1bfb","ios":"1:169763294370:ios:9c4bb832ce07211cbb1bfb","macos":"1:169763294370:ios:9c4bb832ce07211cbb1bfb","web":"1:169763294370:web:f5c072022968de4fbb1bfb","windows":"1:169763294370:web:aee2898ea724e11ebb1bfb"}}}}}}
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "cronosalud-37e76",
+          "appId": "1:169763294370:android:d852c2037d144b79bb1bfb",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "cronosalud-37e76",
+          "configurations": {
+            "android": "1:169763294370:android:d852c2037d144b79bb1bfb",
+            "ios": "1:169763294370:ios:9c4bb832ce07211cbb1bfb",
+            "macos": "1:169763294370:ios:9c4bb832ce07211cbb1bfb",
+            "web": "1:169763294370:web:f5c072022968de4fbb1bfb",
+            "windows": "1:169763294370:web:aee2898ea724e11ebb1bfb"
+          }
+        }
+      }
+    }
+  },
+  "functions": [
+    {
+      "source": "functions",
+      "codebase": "default",
+      "ignore": [
+        "node_modules",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log",
+        "*.local"
+      ],
+      "predeploy": [
+        "npm --prefix \"$RESOURCE_DIR\" run lint"
+      ]
+    }
+  ]
+}
