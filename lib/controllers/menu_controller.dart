@@ -1,6 +1,9 @@
 import 'package:cronosalud/views/dashboard/citasmedicasscreen.dart';
 import 'package:cronosalud/models/menu_item_model.dart';
-import 'package:cronosalud/views/dashboard/perfil_usuario.dart';
+import 'package:cronosalud/views/dashboard/enviarmensajescreen.dart';
+import 'package:cronosalud/views/dashboard/interfaz_datos_historicos.dart';
+import 'package:cronosalud/views/dashboard/interfaz_examenes.dart';
+import 'package:cronosalud/views/dashboard/perfil_screen.dart';
 import 'package:cronosalud/views/dashboard/ingresodatosalud.dart';
 import 'package:cronosalud/views/dashboard/tratamientos.dart';
 import 'package:cronosalud/views/notificacion/notificacionscreen.dart';
@@ -25,8 +28,7 @@ class MenuitemController {
         onPressed: () => Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) =>
-                PerfilScreenUsuario(userId: userId, userType: userType),
+            builder: (context) => PerfilScreenUsuario(userId: userId),
           ),
         ),
       ),
@@ -72,6 +74,36 @@ class MenuitemController {
           context,
           MaterialPageRoute(
             builder: (context) => TratamientosScreen(userId: userId),
+          ),
+        ),
+      ),
+      MenuItemModel(
+        icon: Icons.show_chart,
+        title: 'Historial de mis Datos Salud',
+        onPressed: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => HistoricalDataScreen(userId: userId),
+          ),
+        ),
+      ),
+      MenuItemModel(
+        icon: Icons.description,
+        title: 'Examenes',
+        onPressed: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => InterfazExamenes(userId: userId),
+          ),
+        ),
+      ),
+      MenuItemModel(
+        icon: Icons.message,
+        title: 'Mensajes',
+        onPressed: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => EnviarMensajeScreen(userId: userId),
           ),
         ),
       ),

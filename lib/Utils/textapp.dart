@@ -22,6 +22,7 @@ class TextApp {
   static const String glucosa = 'Nivel de Glucosa (mg/dL)';
   static const String presion = 'Presión Arterial (mmHg)';
   static const String medicamento = 'Medicamentos';
+  static const String peso = 'Peso';
   static const String biometria = 'Iniciar con biometría';
   static const String savedatossalud = 'Guardar Datos';
   static const String editarperfil = 'Editar Perfil';

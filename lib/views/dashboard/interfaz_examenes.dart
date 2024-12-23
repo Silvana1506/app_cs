@@ -1,22 +1,31 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'dart:developer' as developer;
+import 'package:pdf/widgets.dart' as pw;
+import 'package:path_provider/path_provider.dart';
+import 'dart:io';
+import 'package:open_file/open_file.dart';
 
-class ExamenesScreen extends StatefulWidget {
-  final String userId; // ID del usuario (paciente)
+class InterfazExamenes extends StatefulWidget {
+  final String userId;
 
-  const ExamenesScreen({super.key, required this.userId});
+  const InterfazExamenes({super.key, required this.userId});
 
   @override
-  State<ExamenesScreen> createState() => _ExamenesScreenState();
+  State<InterfazExamenes> createState() => _InterfazExamenesState();
 }
 
-class _ExamenesScreenState extends State<ExamenesScreen> {
-  List<Map<String, dynamic>> examenes = [
-    {'id': '1', 'nombre': 'Examen de Sangre', 'fecha': '2024-12-15'},
-    {'id': '2', 'nombre': 'Radiografía de Tórax', 'fecha': '2024-12-10'},
-    {'id': '3', 'nombre': 'Electrocardiograma', 'fecha': '2024-12-12'},
-    // Esta lista será cargada desde Firestore
-  ];
+class _InterfazExamenesState extends State<InterfazExamenes> {
+  late Stream<QuerySnapshot> _examenesStream;
+
+  @override
+  void initState() {
+    super.initState();
+    _examenesStream = FirebaseFirestore.instance
+        .collection('examenes')
+        .where('userId', isEqualTo: widget.userId)
+        .snapshots();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,32 +33,72 @@ class _ExamenesScreenState extends State<ExamenesScreen> {
       appBar: AppBar(
         title: const Text('Resultados de Exámenes'),
       ),
-      body: ListView.builder(
-        itemCount: examenes.length,
-        itemBuilder: (context, index) {
-          var examen = examenes[index];
-          return Card(
-            elevation: 5,
-            margin: const EdgeInsets.all(10),
-            child: ListTile(
-              title: Text(examen['nombre']),
-              subtitle: Text('Fecha: ${examen['fecha']}'),
-              trailing: IconButton(
-                icon: Icon(Icons.download),
-                onPressed: () {
-                  _descargarExamen(
-                      examen['id']); // Función para descargar el examen
-                },
-              ),
-            ),
+      body: StreamBuilder<QuerySnapshot>(
+        stream: _examenesStream,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+            return const Center(child: Text('No se encontraron exámenes.'));
+          }
+
+          final examenes = snapshot.data!.docs;
+
+          return ListView.builder(
+            itemCount: examenes.length,
+            itemBuilder: (context, index) {
+              var examen = examenes[index].data() as Map<String, dynamic>;
+
+              return Card(
+                elevation: 5,
+                margin: const EdgeInsets.all(10),
+                child: ListTile(
+                  title: Text(examen['nombre']),
+                  subtitle: Text('Fecha: ${examen['fecha']}'),
+                  trailing: IconButton(
+                    icon: const Icon(Icons.download),
+                    onPressed: () async {
+                      String path = await _descargarExamenPDF(examen);
+                      OpenFile.open(path);
+                    },
+                  ),
+                ),
+              );
+            },
           );
         },
       ),
     );
   }
 
-  void _descargarExamen(String examenId) {
-    // Aquí implementarás la lógica para generar y descargar el examen en PDF
-    developer.log("Descargando examen $examenId");
+  Future<String> _descargarExamenPDF(Map<String, dynamic> examen) async {
+    final pdf = pw.Document();
+
+    pdf.addPage(pw.Page(build: (pw.Context context) {
+      return pw.Center(
+        child:
+            pw.Text('Examen: ${examen['nombre']}\nFecha: ${examen['fecha']}'),
+      );
+    }));
+
+    final output = await getExternalStorageDirectory();
+    final filePath = '${output!.path}/Examen_${examen['id']}.pdf';
+    final file = File(filePath);
+    await file.writeAsBytes(await pdf.save());
+
+    // Subir el PDF a Firebase Storage
+    final storageRef = FirebaseStorage.instance
+        .ref()
+        .child('examenes/${widget.userId}/Examen_${examen['id']}.pdf');
+    await storageRef.putFile(file);
+
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Examen descargado con éxito')),
+      );
+    }
+
+    return filePath;
   }
 }

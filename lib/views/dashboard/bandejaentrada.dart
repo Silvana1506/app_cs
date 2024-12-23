@@ -5,9 +5,9 @@ import 'package:cronosalud/views/dashboard/respondermensajes.dart';
 
 //Muestra la lista de mensajes pendientes y permite responder a cada uno
 class BandejaEntradaScreen extends StatefulWidget {
-  final String medicoId;
+  final String userId;
 
-  const BandejaEntradaScreen({super.key, required this.medicoId});
+  const BandejaEntradaScreen({super.key, required this.userId});
 
   @override
   State<BandejaEntradaScreen> createState() => _BandejaEntradaScreenState();
@@ -21,7 +21,7 @@ class _BandejaEntradaScreenState extends State<BandejaEntradaScreen> {
     return Scaffold(
       appBar: AppBar(title: const Text("Bandeja de Entrada")),
       body: StreamBuilder<List<Mensaje>>(
-        stream: _controller.obtenerMensajesPendientes(widget.medicoId),
+        stream: _controller.obtenerMensajesPendientes(widget.userId),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return const Center(child: CircularProgressIndicator());
@@ -38,7 +38,7 @@ class _BandejaEntradaScreenState extends State<BandejaEntradaScreen> {
               final mensaje = mensajes[index];
               return ListTile(
                 title: Text(mensaje.mensaje),
-                subtitle: Text("Paciente ID: ${mensaje.idPaciente}"),
+                subtitle: Text("Paciente ID: ${mensaje.userId}"),
                 trailing: IconButton(
                   icon: const Icon(Icons.reply),
                   onPressed: () {

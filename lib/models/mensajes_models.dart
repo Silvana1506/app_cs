@@ -1,7 +1,7 @@
 class Mensaje {
   final String id;
   final String mensaje;
-  final String idPaciente;
+  final String userId;
   final String idMedico;
   final String estado;
   final DateTime fecha;
@@ -11,7 +11,7 @@ class Mensaje {
   Mensaje({
     required this.id,
     required this.mensaje,
-    required this.idPaciente,
+    required this.userId,
     required this.idMedico,
     required this.estado,
     required this.fecha,
@@ -24,7 +24,7 @@ class Mensaje {
     return Mensaje(
       id: id,
       mensaje: data['mensaje'],
-      idPaciente: data['idPaciente'],
+      userId: data['userId'],
       idMedico: data['idMedico'],
       estado: data['estado'],
       fecha: DateTime.parse(data['fecha']),
@@ -39,7 +39,7 @@ class Mensaje {
   Map<String, dynamic> toFirestore() {
     return {
       'mensaje': mensaje,
-      'idPaciente': idPaciente,
+      'userId': userId,
       'idMedico': idMedico,
       'estado': estado,
       'fecha': fecha.toIso8601String(),

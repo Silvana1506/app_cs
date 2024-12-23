@@ -7,7 +7,7 @@ import 'package:cronosalud/widgets/fields/myfieldform.dart';
 import 'package:flutter/material.dart';
 
 class IngresoDatoSaludScreen extends StatefulWidget {
-  final String userId; // El RUT del usuario
+  final String userId;
 
   const IngresoDatoSaludScreen({
     super.key,
@@ -21,19 +21,50 @@ class IngresoDatoSaludScreen extends StatefulWidget {
 class _IngresoDatoSaludScreenState extends State<IngresoDatoSaludScreen> {
   final TextEditingController _glucosaController = TextEditingController();
   final TextEditingController _presionController = TextEditingController();
-  final TextEditingController _medicamentoController = TextEditingController();
+  final TextEditingController _pesoController = TextEditingController();
 
   String? _glucosaError;
   String? _presionError;
-  String? _medicamentoError;
+  String? _pesoError;
+
+  String? rut; // Esta variable almacenará el RUT obtenido
 
   final ControladorDatosSalud controlador = ControladorDatosSalud();
+
+  @override
+  void initState() {
+    super.initState();
+    // Obtener el RUT del usuario una vez que la pantalla se inicializa
+    _obtenerRutDelUsuario();
+  }
+
+  Future<void> _obtenerRutDelUsuario() async {
+    try {
+      // Usamos el userId para obtener el RUT
+      rut = await controlador.obtenerRutDelUsuario(widget.userId);
+      if (mounted) {
+        if (rut == null) {
+          // Si no se encuentra el RUT, puedes manejar el error de alguna manera
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+                content: Text('Error al obtener el RUT del usuario')),
+          );
+        }
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error: $e')),
+        );
+      }
+    }
+  }
 
   @override
   void dispose() {
     _glucosaController.dispose();
     _presionController.dispose();
-    _medicamentoController.dispose();
+    _pesoController.dispose();
     super.dispose();
   }
 
@@ -41,7 +72,7 @@ class _IngresoDatoSaludScreenState extends State<IngresoDatoSaludScreen> {
     setState(() {
       _glucosaError = null;
       _presionError = null;
-      _medicamentoError = null;
+      _pesoError = null;
     });
 
     bool isValid = true;
@@ -73,8 +104,8 @@ class _IngresoDatoSaludScreenState extends State<IngresoDatoSaludScreen> {
       }
     }
 
-    if (_medicamentoController.text.isEmpty) {
-      _medicamentoError = 'El medicamento es requerido';
+    if (_pesoController.text.isEmpty) {
+      _pesoError = 'El peso es requerido';
       isValid = false;
     }
 
@@ -89,9 +120,10 @@ class _IngresoDatoSaludScreenState extends State<IngresoDatoSaludScreen> {
     try {
       await controlador.guardarDatosSalud(
         userId: widget.userId,
+        rut: rut!,
         glucosa: int.parse(_glucosaController.text.trim()),
         presion: _presionController.text.trim(),
-        medicamento: _medicamentoController.text.trim(),
+        peso: _pesoController.text.trim(),
       );
 
       if (mounted) {
@@ -103,7 +135,7 @@ class _IngresoDatoSaludScreenState extends State<IngresoDatoSaludScreen> {
       // Limpiar los campos después de guardar
       _glucosaController.clear();
       _presionController.clear();
-      _medicamentoController.clear();
+      _pesoController.clear();
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -126,7 +158,7 @@ class _IngresoDatoSaludScreenState extends State<IngresoDatoSaludScreen> {
               height: double.infinity,
               decoration: const BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage('assets/images/imagen1.jpg'),
+                  image: AssetImage('assets/images/imagen4.jpg'),
                   fit: BoxFit.cover, // La imagen cubre toda la pantalla
                 ),
               ),
@@ -183,10 +215,10 @@ class _IngresoDatoSaludScreenState extends State<IngresoDatoSaludScreen> {
                             ),
                             const SizedBox(height: 15),
                             Myfieldform(
-                              tittle: TextApp.medicamento,
-                              controller: _medicamentoController,
-                              icon: Icons.medical_services,
-                              errorText: _medicamentoError,
+                              tittle: TextApp.peso,
+                              controller: _pesoController,
+                              icon: Icons.scale,
+                              errorText: _pesoError,
                               validator: null,
                               keyboardType: TextInputType.text,
                             ),

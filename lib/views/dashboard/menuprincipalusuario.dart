@@ -3,10 +3,8 @@ import 'package:cronosalud/widgets/widget/menuitem.dart';
 import 'package:flutter/material.dart';
 import 'package:cronosalud/controllers/menu_controller.dart';
 
-//menu principal usuario
 class MenuUsuarioScreen extends StatelessWidget {
   final String userId;
-  // final String? userType;
 
   const MenuUsuarioScreen({super.key, required this.userId});
 

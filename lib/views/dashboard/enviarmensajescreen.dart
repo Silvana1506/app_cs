@@ -4,7 +4,9 @@ import 'package:cronosalud/models/mensajes_models.dart';
 import 'package:cronosalud/controllers/mensaje_controlador.dart';
 
 class EnviarMensajeScreen extends StatefulWidget {
-  const EnviarMensajeScreen({super.key});
+  final String userId;
+
+  const EnviarMensajeScreen({super.key, required this.userId});
 
   @override
   State<EnviarMensajeScreen> createState() => _EnviarMensajeScreenState();
@@ -47,7 +49,7 @@ class _EnviarMensajeScreenState extends State<EnviarMensajeScreen> {
       final mensaje = Mensaje(
         id: '',
         mensaje: _mensajeController.text.trim(),
-        idPaciente: _userId!,
+        userId: _userId!,
         idMedico: "medico123", // Reemplazar con el ID real del médico
         estado: "pendiente",
         fecha: DateTime.now(),
