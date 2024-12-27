@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Users {
   final String id;
   final String name;
@@ -25,23 +27,26 @@ class Users {
     required this.userType,
   });
 
-  factory Users.fromJson(Map<String, dynamic> json, String id) {
+  // Constructor para crear una instancia desde un documento de Firestore
+  factory Users.fromFirestore(DocumentSnapshot<Map<String, dynamic>> doc) {
+    final data = doc.data()!;
     return Users(
-      id: id,
-      name: json['nombre'],
-      apaterno: json['apaterno'],
-      amaterno: json['amaterno'],
-      rut: json['rut'],
-      email: json['email'],
-      password: json['password'],
-      phone: json['phone'],
-      sexo: json['sexo'],
-      fnacimiento: json['fnacimiento'],
-      userType: json['userType'],
+      id: doc.id, // Utiliza el ID del documento como ID del usuario
+      name: data['nombre'] ?? '',
+      apaterno: data['apaterno'] ?? '',
+      amaterno: data['amaterno'] ?? '',
+      rut: data['rut'] ?? '',
+      email: data['email'] ?? '',
+      password: data['password'] ?? '',
+      phone: data['phone'] ?? '',
+      sexo: data['sexo'] ?? '',
+      fnacimiento: data['fnacimiento'] ?? '',
+      userType: data['userType'] ?? '',
     );
   }
 
-  Map<String, dynamic> toJson() {
+  // Convertir la instancia de usuario en un mapa para Firestore
+  Map<String, dynamic> toFirestore() {
     return {
       'nombre': name,
       'apaterno': apaterno,
@@ -56,6 +61,7 @@ class Users {
     };
   }
 
+  // Método para actualizar valores específicos
   Users copyWith({
     String? name,
     String? apaterno,

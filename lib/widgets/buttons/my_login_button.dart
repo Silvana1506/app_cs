@@ -19,8 +19,8 @@ class MyLoginButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 280.0,
-      padding: EdgeInsets.only(top: 18.0, bottom: 18),
+      width: 250.0,
+      padding: EdgeInsets.only(top: 12.0, bottom: 12),
       // width: double.infinity,
       child: ElevatedButton(
         onPressed: onPressed ??
@@ -35,7 +35,7 @@ class MyLoginButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           elevation: 5.0,
           backgroundColor: colorbuttonbackground,
-          padding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 50.0),
+          padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 50.0),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.0),
           ), // Color de fondo
@@ -45,7 +45,7 @@ class MyLoginButton extends StatelessWidget {
           style: TextStyle(
             color: colortext,
             letterSpacing: 1.5,
-            fontSize: 24.0,
+            fontSize: 20.0,
             fontWeight: FontWeight.bold,
           ),
         ),

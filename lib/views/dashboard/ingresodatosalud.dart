@@ -1,5 +1,6 @@
 import 'package:cronosalud/Utils/textapp.dart';
 import 'package:cronosalud/controllers/datos_salud_controlador.dart';
+import 'package:cronosalud/views/dashboard/interfaz_datos_historicos.dart';
 import 'package:cronosalud/widgets/buttons/my_back_button.dart';
 import 'package:cronosalud/widgets/buttons/my_login_button.dart';
 import 'package:cronosalud/widgets/container/container_shape01.dart';
@@ -230,6 +231,22 @@ class _IngresoDatoSaludScreenState extends State<IngresoDatoSaludScreen> {
                               widgetToNavigate:
                                   null, // No es necesario especificar aquí la navegación directa
                               onPressed: _guardarDatosSalud,
+                            ),
+                            const SizedBox(height: 20),
+                            MyLoginButton(
+                              text: TextApp.historial,
+                              colortext: Colors.black,
+                              colorbuttonbackground: Colors.grey,
+                              widgetToNavigate: null,
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => HistoricalDataScreen(
+                                        userId: widget.userId),
+                                  ),
+                                );
+                              },
                             ),
                           ],
                         ),

@@ -34,7 +34,9 @@ class _PerfilScreenUsuarioState extends State<PerfilScreenUsuario> {
         backgroundColor: Colors.lightBlueAccent,
       ),
       body: FutureBuilder<Users?>(
-        future: _controller.fetchUserData(widget.email),
+        future: widget.email != null
+            ? _controller.fetchUserDataByEmail(widget.email!)
+            : _controller.fetchUserDataById(widget.userId),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
@@ -48,7 +50,7 @@ class _PerfilScreenUsuarioState extends State<PerfilScreenUsuario> {
 
             return SingleChildScrollView(
               child: Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(14.0),
                 child: Column(
                   children: [
                     // Encabezado del perfil
@@ -66,17 +68,17 @@ class _PerfilScreenUsuarioState extends State<PerfilScreenUsuario> {
                               'assets/images/profile_placeholder.png',
                             ),
                           ),
-                          const SizedBox(height: 10),
+                          const SizedBox(height: 5),
                           Text(
                             userData.name,
                             style: const TextStyle(
-                              fontSize: 22,
+                              fontSize: 20,
                               fontWeight: FontWeight.bold,
                               color: Colors.black87,
                             ),
                           ),
                           Text(
-                            widget.email ?? 'Correo no especificado',
+                            widget.email ?? '        ',
                             style: const TextStyle(
                               fontSize: 16,
                               color: Colors.black,
@@ -99,14 +101,14 @@ class _PerfilScreenUsuarioState extends State<PerfilScreenUsuario> {
                       text: TextApp.editarperfil,
                       colortext: Colors.black,
                       colorbuttonbackground: Colors.lightBlueAccent,
-                      widgetToNavigate: null,
                       onPressed: () async {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) => EditProfileScreen(
                               userId: widget.userId,
-                              userData: userData,
+                              userData:
+                                  userData, // Pasa la instancia completa de usuario
                               userType: widget.userType,
                             ),
                           ),
@@ -128,15 +130,15 @@ class _PerfilScreenUsuarioState extends State<PerfilScreenUsuario> {
     );
   }
 
-  Widget _buildUserInfoTile(String title, String value) {
+  _buildUserInfoTile(String title, String value) {
     return Card(
       elevation: 5,
       margin: const EdgeInsets.symmetric(vertical: 10),
       child: ListTile(
         leading: const Icon(Icons.info, color: Colors.lightBlueAccent),
         title: Text(
-          '$title: $value',
-          style: const TextStyle(fontSize: 18),
+          '$title: ${value.isNotEmpty ? value : 'Información no disponible'}',
+          style: const TextStyle(fontSize: 16),
         ),
       ),
     );

@@ -34,22 +34,22 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               children: [
                 // Fondo decorativo en la parte superior
                 const ContainerShape01(),
-                const SizedBox(height: 10),
+                const SizedBox(height: 20),
                 // Título principal
                 const Text(
                   "¡Bienvenido a CronoSalud!",
                   style: TextStyle(
-                    fontSize: 30,
+                    fontSize: 25,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
                   ),
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 40),
+                const SizedBox(height: 30),
                 const Text(
                   "Selecciona tu perfil para continuar",
                   style: TextStyle(
-                    fontSize: 22,
+                    fontSize: 18,
                     color: Colors.white,
                   ),
                   textAlign: TextAlign.center,

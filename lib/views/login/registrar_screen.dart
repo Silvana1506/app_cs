@@ -107,7 +107,7 @@ class _RegistroScreenState extends State<RegistroScreen> {
                       Text(
                         "Crea tu cuenta !",
                         style: TextStyle(
-                          fontSize: 28,
+                          fontSize: 25,
                           fontWeight: FontWeight.bold,
                           color: Colors.black87,
                         ),
@@ -116,7 +116,7 @@ class _RegistroScreenState extends State<RegistroScreen> {
                       Text(
                         "Completa los campos para registrarte",
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: 12,
                           fontWeight: FontWeight.bold,
                           color: Colors.black,
                         ),
@@ -125,7 +125,7 @@ class _RegistroScreenState extends State<RegistroScreen> {
                       const SizedBox(height: 3),
                       // Formulario de entrada
                       Container(
-                        padding: const EdgeInsets.all(10),
+                        padding: const EdgeInsets.all(7),
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(10),

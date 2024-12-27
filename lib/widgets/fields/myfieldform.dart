@@ -35,6 +35,8 @@ class Myfieldform extends StatelessWidget {
             ? Icon(icon)
             : null, // Muestra el ícono si se proporciona
         border: const OutlineInputBorder(),
+        contentPadding:
+            const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
       ),
       keyboardType: keyboardType,
     );

@@ -1,4 +1,5 @@
 import 'package:cronosalud/controllers/recuperar_password_controlador.dart';
+import 'package:cronosalud/views/login/welcome_screen.dart';
 import 'package:flutter/material.dart';
 
 class ResetPasswordScreen extends StatefulWidget {
@@ -34,7 +35,10 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
       await _authController.handlePasswordReset(widget.oobCode, newPassword);
       if (mounted) {
         _showSnackbar('Contraseña restablecida con éxito.');
-        Navigator.pushReplacementNamed(context, '/login');
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => WelcomeScreen()),
+        );
       }
     } catch (e) {
       _showSnackbar('Error: ${e.toString()}');

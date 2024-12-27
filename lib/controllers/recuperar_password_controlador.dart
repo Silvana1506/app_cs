@@ -1,15 +1,26 @@
-import 'package:cronosalud/models/recuperar_password_models.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthController {
-  final AuthModel _authModel = AuthModel();
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
-  // Manejar el envío de correo de recuperación
+  // Envía un enlace de restablecimiento de contraseña al correo
   Future<void> handlePasswordResetRequest(String email) async {
-    await _authModel.sendPasswordResetEmail(email);
+    try {
+      await _firebaseAuth.sendPasswordResetEmail(email: email);
+    } catch (e) {
+      throw Exception('No se pudo enviar el enlace: ${e.toString()}');
+    }
   }
 
-  // Manejar la confirmación de la nueva contraseña
+  // Restablece la contraseña usando el código recibido
   Future<void> handlePasswordReset(String oobCode, String newPassword) async {
-    await _authModel.resetPassword(oobCode, newPassword);
+    try {
+      await _firebaseAuth.confirmPasswordReset(
+        code: oobCode,
+        newPassword: newPassword,
+      );
+    } catch (e) {
+      throw Exception('Error al restablecer la contraseña: ${e.toString()}');
+    }
   }
 }

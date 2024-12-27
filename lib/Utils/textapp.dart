@@ -26,4 +26,5 @@ class TextApp {
   static const String biometria = 'Iniciar con biometría';
   static const String savedatossalud = 'Guardar Datos';
   static const String editarperfil = 'Editar Perfil';
+  static const String historial = 'Mi Historial';
 }

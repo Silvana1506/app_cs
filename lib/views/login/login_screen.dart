@@ -147,7 +147,7 @@ class _LoginScreenState extends State<LoginScreen> {
               child: ContainerShape01(),
             ),
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 30),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               child: SingleChildScrollView(
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -156,22 +156,22 @@ class _LoginScreenState extends State<LoginScreen> {
                       const Text(
                         "Inicia sesión !",
                         style: TextStyle(
-                          fontSize: 28,
+                          fontSize: 25,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      const SizedBox(height: 10),
+                      const SizedBox(height: 5),
                       // Aquí agregamos el texto que muestra el tipo de usuario
                       Text(
-                        "Iniciar sesión como ${widget.userType}",
+                        "Perfil ${widget.userType}",
                         style: const TextStyle(
                           fontSize: 22,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-                      const SizedBox(height: 30),
+                      const SizedBox(height: 20),
                       usuarioPasswordWidget(),
-                      const SizedBox(height: 10),
+                      const SizedBox(height: 5),
                       // Botón de inicio de sesión
                       MyLoginButton(
                           text: TextApp.iniciosesion,
@@ -206,7 +206,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             );
                           }),
 
-                      const SizedBox(height: 5),
+                      const SizedBox(height: 3),
                       //boton registrarse
                       MyLoginButton(
                         text: TextApp.signup,
@@ -214,13 +214,13 @@ class _LoginScreenState extends State<LoginScreen> {
                         colorbuttonbackground: Colors.lightBlueAccent,
                         widgetToNavigate: RegistroScreen(),
                       ),
-                      const SizedBox(height: 5),
+                      const SizedBox(height: 2),
                       _forgotpass(context),
-                      const SizedBox(height: 5),
+                      const SizedBox(height: 2),
                       _divider(),
-                      const SizedBox(height: 5),
+                      const SizedBox(height: 2),
                       GoogleAuthButtonWidget(), // Google Auth Button iniciar sesion con google
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 10),
                       // Botón para inicio de sesión biométrico
                       BiometricButton(
                         icon: Icons.fingerprint, // Icono de biometría
